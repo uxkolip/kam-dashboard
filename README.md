@@ -3,7 +3,7 @@
 Vasilis Kolip's SpookyLite
 
 GitHub public page:
-https://spookylite.github.io
+https://uxkolip.github.io/spookylite/dist/
 
 Figma prototype:
 https://www.figma.com/proto/EDc6FO6o6nohFVMXHfOQuF?page-id=0%3A1&type=design&node-id=1-4&t=exRopGIv7uHR8Qam-0&scaling=min-zoom&starting-point-node-id=1%3A4
