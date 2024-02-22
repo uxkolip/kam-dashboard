@@ -4,6 +4,14 @@ $dark: #000;
 $modal-backdrop-opacity: .96;
 $enable-cssgrid: true;
 
+$container-max-widths: (
+  sm: 640px,
+  md: 728px,
+  lg: 924px,
+  xl: 1080px,
+  xxl: 1300px
+);
+
 @import 'bootstrap/_functions.scss';
 @import 'bootstrap/variables.scss';
 
@@ -23,12 +31,11 @@ $theme-colors: map-merge($custom-theme-colors, $theme-colors);
 @import 'bootstrap/bootstrap.scss';
 
 body {
-  background: $primary;
   font-family: "Inter", sans-serif;
   font-weight: 400;
   font-style: normal;
+  color: $dark;
   overflow-x: hidden;
-  color: white;
 }
 
 h1 {
@@ -48,9 +55,118 @@ p {
   border-radius: 12px !important;
 }
 
-.large-shadow {
-  box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.10);
+.top-corners-border-radius {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
+
+.right-corners-border-radius {
+  border-top-right-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
+}
+
+.left-corners-border-radius {
+  border-top-left-radius: 12px !important;
+  border-bottom-left-radius: 12px !important;
+}
+
+.bookCover {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border: 6px solid white;
+}
+
+.bookCard .col-4 img {
+  top: 0;
+  transition: all .3s;
+}
+
+.bookCard:hover .col-4 img {
+  top: -10px;
+}
+
+.bannerGradient {
+  background: rgb(9,194,105);
+  background: linear-gradient(180deg, rgba(9,194,105,1) 0%, rgba(227,231,64,1) 30%, rgba(227,231,64,1) 70%, rgba(9,194,105,1) 100%); 
+}
+
+/* Carousel */
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 422px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+
+  &.animation-reveal {
+    animation: reveal .3s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  @keyframes reveal {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+.card {
+  margin: 0 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 35, 0.25);
+  border-radius: 8px;
+  height: 292px;
+  width: 200px;
+  display: block;
+  position: relative;
+  background-position: 50%;
+  background-size: cover;
+  cursor: pointer;
+  transition: width .16s ease-in-out, height .16s ease-in-out;
+}
+
+.card.is-custom-selected {
+  width: 250px;
+  height: 374px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-bg {
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+}
+
+.flickity-enabled {
+  position: relative;
+}
+
+.flickity-enabled:focus {
+  outline: none;
+}
+
+.flickity-viewport {
+  position: relative;
+  height: 100%;
+}
+
+.flickity-slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
 
 .noUnderline {
   text-decoration: none !important;
