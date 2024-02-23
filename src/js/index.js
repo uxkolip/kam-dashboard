@@ -4,40 +4,41 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 $(document).ready(function() {
   //console.log('Ready!');
 
-    var modalClosedKey = 'ouibounceModalClosed';
+  /*ouibounce features*/
+  var modalClosedKey = 'ouibounceModalClosed';
 
-    function isModalClosed() {
-        return localStorage.getItem(modalClosedKey) === 'true';
-    }
+  function isModalClosed() {
+      return localStorage.getItem(modalClosedKey) === 'true';
+  }
 
-    function setModalClosed() {
-        localStorage.setItem(modalClosedKey, 'true');
-    }
+  function setModalClosed() {
+      localStorage.setItem(modalClosedKey, 'true');
+  }
 
-    function shouldTriggerModal() {
-        return !isModalClosed();
-    }
+  function shouldTriggerModal() {
+      return !isModalClosed();
+  }
 
-    function triggerModal() {
-        $('#ouibounceModal').modal('show');
-        // You can replace 'show' with any other method depending on your modal library.
-    }
+  function triggerModal() {
+      $('#ouibounceModal').modal('show');
+      // You can replace 'show' with any other method depending on your modal library.
+  }
 
-    $(document).mouseleave(function() {
-        if (shouldTriggerModal()) {
-            triggerModal();
-            setModalClosed();
-        }
-    });
+  $(document).mouseleave(function() {
+      if (shouldTriggerModal()) {
+          triggerModal();
+          setModalClosed();
+      }
+  });
 
-    $('#ouibounceModal').on('hidden.bs.modal', function() {
-        setModalClosed();
-    });
+  $('#ouibounceModal').on('hidden.bs.modal', function() {
+      setModalClosed();
+  });
 
-    // Clear modal closed status on page refresh
-    $(window).on('beforeunload', function() {
-        localStorage.removeItem(modalClosedKey);
-    });
+  // Clear modal closed status on page refresh
+  $(window).on('beforeunload', function() {
+      localStorage.removeItem(modalClosedKey);
+  });
 
 
 });
@@ -77,7 +78,7 @@ $(document).ready(function() {
     let time = 0;
     function reposition() {
       flkty.reposition();
-      if (time++ < 10) {
+      if (time++ < 20) {
         requestAnimationFrame(reposition);
       } else {
         $(".flickity-prev-next-button").css("pointer-events", "auto");
@@ -91,12 +92,13 @@ $(document).ready(function() {
       $(".flickity-prev-next-button").css("pointer-events", "none");
       flkty.selectedElement.classList.add("is-custom-selected");
 
+      //gets book's title and prints it below the book cover
       $("#bookTitle").text(flkty.selectedElement.firstElementChild.attributes['data-book'].value);
 
       let time = 0;
       function reposition() {
         flkty.reposition();
-        if (time++ < 10) {
+        if (time++ < 20) {
           requestAnimationFrame(reposition);
         } else {
           $(".flickity-prev-next-button").css("pointer-events", "auto");
@@ -120,7 +122,7 @@ $(document).ready(function() {
       let time = 0;
       function reposition() {
         flkty.reposition();
-        if (time++ < 10) {
+        if (time++ < 20) {
           requestAnimationFrame(reposition);
         }
       }

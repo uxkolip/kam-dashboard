@@ -47,13 +47,6 @@ gulp.task('minify-css', function() {
 
 gulp.task('compress', function() {
   gulp.src('./src/js/**/*.*')
-    .pipe(minify({
-        ext:{
-            src:'-debug.js',
-            min:'.js'
-        },
-        exclude: ['bootstrap'],
-    }))
     .pipe(gulp.dest('./dist/js/'))
 });
 
