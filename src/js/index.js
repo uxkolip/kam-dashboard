@@ -2,8 +2,46 @@ const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]
 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
 $(document).ready(function() {
-  console.log('Ready!');
+  //console.log('Ready!');
+
+    var modalClosedKey = 'ouibounceModalClosed';
+
+    function isModalClosed() {
+        return localStorage.getItem(modalClosedKey) === 'true';
+    }
+
+    function setModalClosed() {
+        localStorage.setItem(modalClosedKey, 'true');
+    }
+
+    function shouldTriggerModal() {
+        return !isModalClosed();
+    }
+
+    function triggerModal() {
+        $('#ouibounceModal').modal('show');
+        // You can replace 'show' with any other method depending on your modal library.
+    }
+
+    $(document).mouseleave(function() {
+        if (shouldTriggerModal()) {
+            triggerModal();
+            setModalClosed();
+        }
+    });
+
+    $('#ouibounceModal').on('hidden.bs.modal', function() {
+        setModalClosed();
+    });
+
+    // Clear modal closed status on page refresh
+    $(window).on('beforeunload', function() {
+        localStorage.removeItem(modalClosedKey);
+    });
+
+
 });
+
 
 /*Sliding carousel from https://codepen.io/RaduBratan/pen/GRoryXm */
 
