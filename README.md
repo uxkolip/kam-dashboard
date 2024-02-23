@@ -11,6 +11,10 @@ https://www.figma.com/proto/EDc6FO6o6nohFVMXHfOQuF?page-id=0%3A1&type=design&nod
 Figma original file:
 https://www.figma.com/file/EDc6FO6o6nohFVMXHfOQuF/Goosebumps-LP-(MailterLite)?type=design&node-id=1%3A4&mode=design&t=exRopGIv7uHR8Qam-1
 
+Figjam wireframes: 
+https://www.figma.com/file/x3aVZDtpzrCBNKu9AQIbE2/SpookyLite-LP-(MailterLite)?type=whiteboard&node-id=0%3A1&t=pULdkuCfRPE3WXqB-1
+
+
 Uses:
 
 Node v8.9.0 (https://nodejs.org/download/release/v8.9.0/) & Gulp v2.2.0
