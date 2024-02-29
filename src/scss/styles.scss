@@ -190,128 +190,14 @@ p {
 }
 
 
+/*Utilities*/
+
 .noUnderline {
   text-decoration: none !important;
 }
 
-.top12vh {
-  top: 12vh;
-}
-
-.top10px {
-  top: 10px;
-}
-
-.top20px {
-  top: 20px;
-}
-
-.top30px {
-  top: 30px;
-}
-
-.top40px {
-  top: 40px;
-}
-
-.top50px {
-  top: 50px;
-}
-
-.top60px {
-  top: 60px;
-}
-
-.minHeight1vh {
-  min-height: 1vh;
-}
-
-.minHeight2vh {
-  min-height: 2vh;
-}
-
-.minHeight3vh {
-  min-height: 3vh;
-}
-
-.minHeight5vh {
-  min-height: 5vh;
-}
-
-.minHeight10vh {
-  min-height: 10vh;
-}
-
-.minHeight15vh {
-  min-height: 15vh;
-}
-
 .minHeight20vh {
   min-height: 20vh;
-}
-
-.minHeight25vh {
-  min-height: 25vh;
-}
-
-.minHeight30vh {
-  min-height: 30vh;
-}
-
-.minHeight35vh {
-  min-height: 35vh;
-}
-
-.minHeight40vh {
-  min-height: 40vh;
-}
-
-.minHeight45vh {
-  min-height: 45vh;
-}
-
-.minHeight50vh {
-  min-height: 50vh;
-}
-
-.minHeight55vh {
-  min-height: 55vh;
-}
-
-.minHeight60vh {
-  min-height: 60vh;
-}
-
-.minHeight65vh {
-  min-height: 65vh;
-}
-
-.minHeight70vh {
-  min-height: 70vh;
-}
-
-.minHeight75vh {
-  min-height: 75vh;
-}
-
-.minHeight80vh {
-  min-height: 80vh;
-}
-
-.minHeight85vh {
-  min-height: 85vh;
-}
-
-.minHeight90vh {
-  min-height: 90vh;
-}
-
-.minHeight95vh {
-  min-height: 95vh;
-}
-
-.minHeight100vh {
-  min-height: 100vh;
 }
 
 .left-0 {
@@ -364,18 +250,6 @@ p {
     .smaller-6 {
         font-size: .8rem !important;
     }
-    .minHeight75vh {
-        min-height: 59vh;
-    }
-    .profileCarousel {
-        min-height: 365px;
-    }
-    .design-card {
-      height: 370px;
-    }
-    .divAfterTimeTravel {
-      margin-top: 0px;
-    }
 }
 
 
@@ -422,10 +296,6 @@ p {
     .smaller-6 {
         font-size: .4rem !important;
     }
-    .minHeight75vh {
-        min-height: 75vh;
-    }
-
 }
 
 @include media-breakpoint-up(md) {
@@ -511,5 +381,4 @@ p {
     .smaller-5 {
         font-size: .6rem !important;
     }
-
 }
