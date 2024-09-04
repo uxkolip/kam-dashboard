@@ -1,132 +1,110 @@
-const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-
 $(document).ready(function() {
-  //console.log('Ready!');
+  
+  console.log('Ready!');
 
-  /*ouibounce features*/
-  var modalClosedKey = 'ouibounceModalClosed';
+  // Toggles comparisons
+  $('#compareBooked').toggle($('#compareBookedToggle').is(':checked'));
+  $('#compareStay').toggle($('#compareStayToggle').is(':checked'));
 
-  function isModalClosed() {
-      return localStorage.getItem(modalClosedKey) === 'true';
-  }
-
-  function setModalClosed() {
-      localStorage.setItem(modalClosedKey, 'true');
-  }
-
-  function shouldTriggerModal() {
-      return !isModalClosed();
-  }
-
-  function triggerModal() {
-      $('#ouibounceModal').modal('show');
-      // You can replace 'show' with any other method depending on your modal library.
-  }
-
-  $(document).mouseleave(function() {
-      if (shouldTriggerModal()) {
-          triggerModal();
-          setModalClosed();
-      }
+  // Add event listeners for the checkboxes
+  $('#compareBookedToggle, #compareStayToggle').change(function() {
+    const target = $(this).is('#compareBookedToggle') ? '#compareBooked' : '#compareStay';
+    $(target).stop(true, true).slideToggle(this.checked);
   });
 
-  $('#ouibounceModal').on('hidden.bs.modal', function() {
-      setModalClosed();
-  });
+  // Highchart
+  $(function () {
+    // Helper function to generate random values
+    function getRandomData(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
-  // Clear modal closed status on page refresh
-  $(window).on('beforeunload', function() {
-      localStorage.removeItem(modalClosedKey);
-  });
+    // Helper function to format conversion rates to 2 decimal places
+    function formatConversionRate(value) {
+      return parseFloat(value.toFixed(2));
+    }
 
+    // Generate data for each country for both years
+    const countries = ['Greece', 'USA', 'Great Britain', 'Belgium', 'France', 'Germany'];
+    const demandData2023 = [];
+    const demandData2024 = [];
+    const conversionRate2023 = [];
+    const conversionRate2024 = [];
+
+    countries.forEach(country => {
+      const demand2023 = getRandomData(300, 2900);
+      const bookings2023 = getRandomData(100, demand2023 - 1); // Ensure bookings are less than demand
+      const rate2023 = formatConversionRate((bookings2023 / demand2023) * 100); // Conversion rate as a percentage
+
+      const demand2024 = getRandomData(300, 2900);
+      const bookings2024 = getRandomData(100, demand2024 - 1); // Ensure bookings are less than demand
+      const rate2024 = formatConversionRate((bookings2024 / demand2024) * 100); // Conversion rate as a percentage
+
+      demandData2023.push(demand2023);
+      conversionRate2023.push(rate2023);
+
+      demandData2024.push(demand2024);
+      conversionRate2024.push(rate2024);
+    });
+
+    $('#chartContainer').highcharts({
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: '',
+          align: 'left'
+        },
+        xAxis: [{
+          categories: countries,
+          crosshair: true
+        }],
+        yAxis: [{
+            title: {
+              text: 'Values'
+            },
+            opposite: false
+        }, {
+            title: {
+              text: 'Conversion Rate (%)'
+            },
+            opposite: true
+        }],
+        tooltip: {
+          shared: true,
+          headerFormat: '<span style="font-size:12px"><b>{point.key}</b></span><br>'
+        },
+        plotOptions: {
+          column: {
+            stacking: 'normal'
+          }
+        },
+        series: [{
+          name: 'Demand 2023',
+          type: 'column',
+          data: demandData2023,
+          stack: '2023',
+          color: '#038477' // Slightly lighter shade of #005B52 for 2023 demand
+        }, {
+          name: 'Demand 2024',
+          type: 'column',
+          data: demandData2024,
+          stack: '2024',
+          color: '#9BD8D1' // Base color for 2024 demand
+        }, {
+          name: 'Conversion Rate 2023',
+          type: 'line',
+          yAxis: 1,
+          data: conversionRate2023,
+          color: '#038477' // Another shade based on #005B52 for 2023 conversion rate
+        }, {
+          name: 'Conversion Rate 2024',
+          type: 'line',
+          yAxis: 1,
+          data: conversionRate2024,
+          color: '#038477' // Yet another shade for 2024 conversion rate
+        }]
+    });
+  });
 
 });
-
-
-/*Sliding carousel from https://codepen.io/RaduBratan/pen/GRoryXm */
-
-(function ($) {
-  $(function () {
-    var slider = $(".slider").flickity({
-      imagesLoaded: true,
-      percentPosition: false,
-      prevNextButtons: false, //true = enable on-screen arrows
-      initialIndex: 0,
-      pageDots: false, //true = enable on-screen dots
-      groupCells: 1,
-      selectedAttraction: 0.2,
-      friction: 0.8,
-      draggable: true //false = disable dragging
-    });
-
-    //this enables clicking on cards
-    slider.on(
-      "staticClick.flickity",
-      function (event, pointer, cellElement, cellIndex) {
-        if (typeof cellIndex == "number") {
-          slider.flickity("selectCell", cellIndex);
-        }
-      }
-    );
-
-    //this resizes the cards and centers the carousel; the latter tends to move a few pixels to the right if .resize() and .reposition() aren't used
-    var flkty = slider.data("flickity");
-    flkty.selectedElement.classList.add("is-custom-selected");
-    flkty.resize();
-    flkty.reposition();
-    let time = 0;
-    function reposition() {
-      flkty.reposition();
-      if (time++ < 20) {
-        requestAnimationFrame(reposition);
-      } else {
-        $(".flickity-prev-next-button").css("pointer-events", "auto");
-      }
-    }
-    requestAnimationFrame(reposition);
-
-    //this expands the cards when in focus
-    flkty.on("settle", () => {
-      $(".card").removeClass("is-custom-selected");
-      $(".flickity-prev-next-button").css("pointer-events", "none");
-      flkty.selectedElement.classList.add("is-custom-selected");
-
-      //gets book's title and prints it below the book cover
-      $("#bookTitle").text(flkty.selectedElement.firstElementChild.attributes['data-book'].value);
-
-      let time = 0;
-      function reposition() {
-        flkty.reposition();
-        if (time++ < 20) {
-          requestAnimationFrame(reposition);
-        } else {
-          $(".flickity-prev-next-button").css("pointer-events", "auto");
-        }
-      }
-            
-      requestAnimationFrame(reposition);
-
-    });
-
-    //this reveals the carousel when the user loads / reloads the page
-    $(".carousel").addClass("animation-reveal");
-    $(".carousel").css("opacity", "1");
-    flkty.resize();
-    flkty.reposition();
-    setTimeout(() => {
-      $(".carousel").removeClass("animation-reveal");
-      $(".carousel").css("opacity", "1");
-      flkty.resize();
-      flkty.reposition();
-      let time = 0;
-      function reposition() {
-        flkty.reposition();
-        if (time++ < 20) {
-          requestAnimationFrame(reposition);
-        }
-      }
-      requestAnimationFrame(reposition);
-    }, 300);
-  });
-})(jQuery);

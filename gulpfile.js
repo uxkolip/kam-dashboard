@@ -1,110 +1,73 @@
-
 // Base Gulp File
-var gulp = require('gulp'),
-    watch = require('gulp-watch'),
-    sass = require('gulp-sass'),
-    sourcemaps = require('gulp-sourcemaps'),
-    path = require('path'),
-    notify = require('gulp-notify'),
-    browserSync = require('browser-sync'),
-    imagemin = require('gulp-imagemin'),
-    imageminPDF = require('gulp-imagemin'),
-    del = require('del'),
-    cache = require('gulp-cache'),
-    autoprefixer = require('gulp-autoprefixer'),
-    runSequence = require('run-sequence'),
-    cleanCSS = require('gulp-clean-css'),
-    htmlmin = require('gulp-html-minifier'),
-    minify = require('gulp-minify');
+const gulp = require('gulp');
+const watch = require('gulp-watch');
+const sass = require('gulp-sass')(require('sass'));
+const sourcemaps = require('gulp-sourcemaps');
+const path = require('path');
+const notify = require('gulp-notify');
+const browserSync = require('browser-sync').create();
+const imagemin = require('gulp-imagemin');
+const del = require('del');
+const cache = require('gulp-cache');
+const autoprefixer = require('gulp-autoprefixer');
+const cleanCSS = require('gulp-clean-css');
+const htmlmin = require('gulp-html-minifier');
+const minify = require('gulp-minify');
 
 // Task to compile SCSS
-gulp.task('sass', function () {
+function compileSass() {
   return gulp.src('./src/scss/**/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({
       errLogToConsole: false,
-      paths: [ path.join(__dirname, 'scss', 'includes') ]
-    })
-    .on("error", notify.onError(function(error) {
+      paths: [path.join(__dirname, 'scss', 'includes')]
+    }).on("error", notify.onError(function(error) {
       return "Failed to Compile SCSS: " + error.message;
     })))
-    
     .pipe(autoprefixer())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./src/css/'))
     .pipe(gulp.dest('./dist/css/'))
-    .pipe(browserSync.reload({
-      stream: true
-    }))
-    //.pipe(notify("SCSS Compiled Successfully :)"));
-});
+    .pipe(browserSync.stream());
+}
 
-gulp.task('minify-css', function() {
-    return gulp.src('./dist/css/*.css')
-        .pipe(cleanCSS({compatibility: 'ie8'}))
-        .pipe(gulp.dest('./dist/css/'));
-});
+// Task to minify CSS
+function minifyCss() {
+  return gulp.src('./dist/css/*.css')
+    .pipe(cleanCSS({ compatibility: 'ie8' }))
+    .pipe(gulp.dest('./dist/css/'));
+}
 
-gulp.task('compress', function() {
-  gulp.src('./src/js/**/*.*')
-    .pipe(gulp.dest('./dist/js/'))
-});
+// Task to compress JS
+function compressJs() {
+  return gulp.src('./src/js/**/*.*')
+    .pipe(minify())
+    .pipe(gulp.dest('./dist/js/'));
+}
 
-// Minify Images
-gulp.task('imagemin', function (){
-  return gulp.src('./src/img/**/*.+(png|jpg|jpeg|gif|svg|mp4|webp|avif)')
-  // Caching images that ran through imagemin
-  .pipe(cache(imagemin({
-      interlaced: true
-    })))
-  .pipe(gulp.dest('./dist/img'));
-});
+// Task to minify HTML
+function minifyHtml() {
+  return gulp.src('./src/*.html')
+    .pipe(htmlmin({ collapseWhitespace: true }))
+    .pipe(gulp.dest('./dist'));
+}
 
-//Copy fonts
-gulp.task('fonts', function() {
-  return gulp.src(['./src/fonts/**/*'])
-  .pipe(gulp.dest('dist/fonts'));
-});
+// Task to watch for changes
+function watchFiles() {
+  gulp.watch('./src/scss/**/*.scss', compileSass);
+  gulp.watch('./src/js/**/*.js', compressJs);
+  gulp.watch('./src/*.html', minifyHtml);
+  gulp.watch('./dist/**/*').on('change', browserSync.reload);
+}
 
-//Copy videos
-gulp.task('video', function() {
-  return gulp.src(['./src/video/**/*'])
-  .pipe(gulp.dest('dist/video'));
-});
+// Task to clean the dist folder
+function clean() {
+  return del(['dist']);
+}
 
-// BrowserSync Task (Live reload)
-gulp.task('browserSync', function() {
-  browserSync({
-    server: {
-      baseDir: './src/'
-    }
-  })
-});
-
-// Minify HTML 
-gulp.task('minifyhtml', function() {
-  gulp.src('./src/**/*.html')
-    .pipe(htmlmin({collapseWhitespace: true}))
-    .pipe(gulp.dest('./dist'))
-});
-
-// Gulp Watch Task
-gulp.task('watch', ['browserSync'], function () {
-  gulp.watch('./src/scss/**/*', ['sass']);
-  gulp.watch('./src/js/**/*').on('change', browserSync.reload);
-  gulp.watch('./src/img/**/*.svg', ['sass']);
-  gulp.watch('./src/*.html').on('change', browserSync.reload);
-});
-
-// Gulp Clean Up Task
-gulp.task('clean', function() {
-  del('dist');
-});
-
-// Gulp Default Task
-gulp.task('default', ['watch']);
-
-// Gulp Build Task
-gulp.task('build', function() {
-  runSequence('clean', 'sass', 'minify-css', 'minifyhtml', 'compress', 'video', 'imagemin');
-});
+// Default task
+exports.default = gulp.series(
+  clean,
+  gulp.parallel(compileSass, minifyCss, compressJs, minifyHtml),
+  watchFiles
+);

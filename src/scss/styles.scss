@@ -1,15 +1,12 @@
 /*default override*/
-$primary: #09C269;
+$primary: #1C1B1F;
 $dark: #000;
-$modal-backdrop-opacity: .94;
+$light: #F6F2F7;
 $enable-cssgrid: true;
+$enable-caret: true;
 
 $container-max-widths: (
-  sm: 640px,
-  md: 728px,
-  lg: 924px,
-  xl: 1080px,
-  xxl: 1300px
+  sm: 99%
 );
 
 @import 'bootstrap/_functions.scss';
@@ -22,7 +19,8 @@ $custom-theme-colors: (
   "green-100": #D7F5E7,
   "gray-100": #F3F4F6,
   "gray-150": #D1D5DB,
-  "gray-200": #685E5E,
+  "gray-200": #787680,
+  "success-pill": #C3FBEF,
   "star": #E87400,
 );
 
@@ -35,165 +33,46 @@ html {
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-style: normal;
   color: $dark;
   overflow-x: hidden;
 }
 
-h1 {
-  font-size: 4rem;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.25;
+.form-check-input {
+    scale: 1.2;
 }
 
-p {
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
+.form-check-input:checked[type="checkbox"] {
+  --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
 }
 
-.border-radius {
-  border-radius: 12px !important;
-}
-
-.bookCoverBorder {
-  border: 6px solid white;
-}
-
-.bookCard .col-4 img {
-  top: 0;
-  transition: all .3s;
-}
-
-.bookCard:hover .col-4 img {
-  top: -10px;
-}
-
-.bannerGradient {
-  background: rgb(9,194,105);
-  background: linear-gradient(180deg, rgba(9,194,105,1) 0%, rgba(227,231,64,1) 30%, rgba(227,231,64,1) 70%, rgba(9,194,105,1) 100%); 
-}
-
-.link-arrow img {
-  transition: all .1s;
-}
-
-.link-arrow img {
-  margin-left: 2px;
-}
-
-.link-arrow:hover span {
-  background: #CEF3E1;
-}
-
-.link-arrow:hover img {
-  margin-left: 4px;
-}
-
-.ctaArrow {
-  animation: arrowMove 1s ease-in-out infinite;
-}
-
-@keyframes arrowMove {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-
-  50% {
-    transform: translate(10px, 0);
-  }
-}
-
-.list-group-numbered > .list-group-item::before {
-  margin-right: 6px;
-}
-
-/* Carousel */
-.carousel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 422px;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  opacity: 0;
-
-  &.animation-reveal {
-    animation: reveal .3s cubic-bezier(0.77, 0, 0.175, 1);
-  }
-
-  @keyframes reveal {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-}
-
-.card {
-  margin: 0 1rem;
-  overflow: hidden;
-  box-shadow: 0 10px 20px 0 rgba(0, 0, 35, 0.25);
-  border-radius: 8px;
-  height: 292px;
-  width: 200px;
-  display: block;
-  position: relative;
-  background-position: 50%;
-  background-size: cover;
-  cursor: pointer;
-  transition: width .16s ease-in-out, height .16s ease-in-out;
-}
-
-.card.is-custom-selected {
-  width: 250px;
-  height: 374px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.card-bg {
-  height: 100%;
-  width: 100%;
-  background-position: center;
-  background-size: cover;
-}
-
-.flickity-enabled {
-  position: relative;
-}
-
-.flickity-enabled:focus {
-  outline: none;
-}
-
-.flickity-viewport {
-  position: relative;
-  height: 100%;
-}
-
-.flickity-slider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.specialInput:after {
+  display: inline-block;
+  top: 12px;
+  right: 12px;
+  content: "";
+  border-top: .4em solid;
+  border-right: .4em solid rgba(0,0,0,0);
+  border-bottom: 0;
+  border-left: .4em solid rgba(0,0,0,0);
   position: absolute;
-  width: 100%;
-  height: 100%;
 }
 
+.accordion-button::after {
+  margin-left: 8px;
+}
 
 /*Utilities*/
 
-.noUnderline {
-  text-decoration: none !important;
+.statsShadow {
+    box-shadow: 1px 4px 18px -2px rgba(231, 228, 232, 0.80);
+    transition: .3s all;
+}
+
+.statsShadow:hover {
+    box-shadow: 2px 5px 20px 0px rgba(231, 228, 232, 1);
 }
 
 .minHeight20vh {
@@ -208,6 +87,63 @@ p {
     right: 0;
 }
 
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400 !important;
+  font-style: normal;
+}
+
+.roboto-medium, strong {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500 !important;
+  font-style: normal;
+}
+
+.roboto-bold {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700 !important;
+  font-style: normal;
+}
+
+.minHeight24px {
+  min-height: 24px; 
+}
+
+.minHeight2vh {
+  min-height: 2vh; 
+}
+
+.minHeight3vh {
+  min-height: 3vh; 
+}
+
+.minHeight4vh {
+  min-height: 4vh; 
+}
+
+.minHeight5vh {
+  min-height: 5vh; 
+}
+
+.minHeight9vh {
+  min-height: 9vh; 
+}
+
+.boxshadow-0 {
+  box-shadow: none !important;
+}
+
+.borderRadius8 {
+  border-radius: 8px !important;
+}
+
+.borderRadius32 {
+  border-radius: 32px !important;
+}
+
+.animatedBox {
+  transition: .3s all;
+}
 
 
 @include media-breakpoint-up(xs) {
